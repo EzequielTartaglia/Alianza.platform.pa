@@ -1481,12 +1481,120 @@ window.addEventListener("scroll", () => {
   }
 });
 
-import_teachers_info()
-//Welcome (When the user refresh the site)
+
 dark_mode()
 //Dark mode activated
 
 //Link to the personal sheet of the teacher
 const planillaPersonalDelPA = document.getElementById('planillaPersonalDelPA')
 planillaPersonalDelPA.addEventListener('click', () => {window.open(PA_linkPlanilla,"_blank")})
+function validation_sesion(){
+        Swal.fire({
+          //Text in the alert
+          title: `<h3 style="justify-content: center;">Valida tu identidad digital</h3>
+              <h6 style="font-size:16px;justify-content: center;">Para poder gestionar mejor la seguridad de nuestros materiales exclusivos, vamos a necesitar que valides tu identidad con el token:</h6>`,
+          //Propieties
+          focusConfirm: false,
+          showClass: { popup: "animate__animated animate__fadeInDown" },
+          hideClass: { popup: "animate__animated animate__fadeOutUp" },
+          confirmButtonColor: "#E31C79",
+          padding: "1.7rem",
+          icon: 'warning',
+          confirmButtonText: "Siguente",
+          background: "linear-gradient(360deg, #00263E ,#003657 70% )",
+          color: "#19c2ff",
+          allowOutsideClick: false,
+  
+          //Create an html format
+          html:
+            `<br><label ><b>Token de seguridad</b></label><br><input type="password"  id="swal-input1" class="swal2-input" style="color:#b80f80;"><br>
+            <br><label ><b>Vuelva a escribir el token de seguridad</b></label><br><input type="password"  id="swal-input2" class="swal2-input" style="color:#b80f80;"><br>`,
+          //When you enter the values
+          preConfirm: () => {
+            return [
+              (token_pass = document.getElementById("swal-input1").value),
+              (token_pass2 = document.getElementById("swal-input2").value),
 
+                
+              Swal.fire({
+                //Text in the alert
+                html:
+                  `<h2 style="justify-content: center;"> ¿Confirmar token? </h2>
+                  `,
+                //Propieties
+                icon: "question",
+                showCancelButton: false,
+                confirmButtonColor: "#E31C79",
+                cancelButtonColor: "#00ccff",
+                confirmButtonText: "Aceptar",
+                padding: "1.7rem",
+                background: "linear-gradient(360deg, #00263E ,#003657 70% )",
+                color: "#19c2ff",
+                allowOutsideClick: false,
+  
+                
+                //Input decition
+              }).then((result) => {
+                //If the user choose 'aceptar'
+                if (result.isConfirmed) {
+                    if(token_pass != "alianza.pa" || token_pass != "alianza.pa" )   {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: '¡Token de seguridad invalido!',
+                            padding: "1.7rem",
+                            background: "linear-gradient(360deg, #00263E ,#003657 70% )",
+                            confirmButtonColor: "#E31C79",
+
+                            color: "#19c2ff",
+                            confirmButtonText: "Aceptar",
+
+                          }).then((result) => {
+                            //If the user choose 'aceptar'
+                            if (result.isConfirmed) {
+                                validation_sesion()
+                                token_pass.reset()}})   
+                    }
+                    else {
+ 
+                      let timerInterval
+                      Swal.fire({
+                        title: '¡Token de seguridad valido!',
+                        text:'Redireccionando...',
+                        padding: "1.7rem",
+                        background: "linear-gradient(360deg, #00263E ,#003657 70% )",
+                        icon: 'success',
+                        timer: 1800,
+                        color: "#19c2ff",
+
+                        timerProgressBar: true,
+                        didOpen: () => {
+                          Swal.showLoading()
+                          const b = Swal.getHtmlContainer().querySelector('b')
+                          timerInterval = setInterval(() => {
+                            b.textContent = Swal.getTimerLeft()
+                          }, 100)
+                        },
+                        willClose: () => {
+                          clearInterval(timerInterval)
+                        }
+                      }).then((result) => {
+                        /* Read more about handling dismissals below */
+                        if (result.dismiss === Swal.DismissReason.timer) {
+                         //Welcome (When the user refresh the site)
+                          import_teachers_info()
+                        }
+                      })
+                        
+                    }
+                  
+                    
+                }
+  
+              }),
+            ];
+          },
+        });
+}
+
+validation_sesion()
