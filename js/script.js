@@ -58,13 +58,14 @@
           if (result.isConfirmed) {
               if(token_pass != "alianza.pa" || token_pass != "alianza.pa" )   {
                   Swal.fire({
+                    
                       icon: 'error',
                       title: 'Oops...',
                       text: '¡Token de seguridad invalido!',
                       padding: "1.7rem",
                       background: "linear-gradient(360deg, #00263E ,#003657 70% )",
                       confirmButtonColor: "#E31C79",
-
+                      allowOutsideClick: false,
                       color: "#19c2ff",
                       confirmButtonText: "Aceptar",
 
